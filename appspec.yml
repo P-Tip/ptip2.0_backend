@@ -1,0 +1,33 @@
+version: 0.0
+os: linux
+
+#배포 파일 설정
+files:
+  - source: /
+    destination: /home/ubuntu/ptip2.0_backend
+    overwrite: yes
+
+#이미 있을 경우 덮어쓰기
+file_exists_behavior: OVERWRITE
+
+#files 섹션에서 복사한 파일에 대한 권한 설정
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+
+#배포 이후에 실행할 일련의 라이프사이클
+hooks:
+  BeforeInstall:
+    - location: scripts/cleanup.sh
+      timeout: 60
+      runas: ubuntu
+  AfterInstall:
+    - location: scripts/stop.sh
+      timeout: 60
+      runas: ubuntu
+  ApplicationStart:
+    - location: scripts/start.sh
+      timeout: 60
+      runas: ubuntu
