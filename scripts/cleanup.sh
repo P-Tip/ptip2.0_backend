@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # 프로젝트 경로
-PROJECT_ROOT="/home/ubuntu/ptip2.0_backend"
+PROJECT_ROOT="/home/ubuntu/server"
 OLD_DIR="$PROJECT_ROOT/old"
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 TIME_NOW=$(date +%c)

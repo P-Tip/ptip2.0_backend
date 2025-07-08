@@ -4,7 +4,7 @@ os: linux
 #배포 파일 설정
 files:
   - source: /
-    destination: /home/ubuntu/ptip2.0_backend
+    destination: /home/ubuntu/server
     overwrite: yes
 
 #이미 있을 경우 덮어쓰기

@@ -29,11 +29,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-#      - name: Generate .env and application.properties
-#        run: |
-#          echo "${{ secrets.ENV_FILE }}" > .env
-#          chmod +x ./generate-properties.sh
-#          ./generate-properties.sh
+      - name: Generate .env and application-prod.properties
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+          chmod +x ./generate-properties.sh
+          ./generate-properties.sh
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
@@ -48,13 +48,22 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Prepare deployment bundle
+        run: |
+          mkdir -p deploy/scripts
+          cp build/libs/*.jar deploy/
+          cp appspec.yml deploy/
+          cp src/main/resources/application-prod.properties deploy/
+          cp scripts/*.sh deploy/scripts/
+          chmod +x deploy/scripts/*.sh
+
       - name: Upload to AWS S3
         run: |
           aws deploy push \
             --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
             --ignore-hidden-files \
             --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
-            --source .
+            --source ./deploy
 
       - name: Deploy to AWS EC2 from S3
         run: |
