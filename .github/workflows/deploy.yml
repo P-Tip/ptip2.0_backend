@@ -3,14 +3,14 @@ name: Deploy to Amazon EC2
 on:
   push:
     branches:
-      - main
+      - develop
 
 env:
   AWS_REGION: ap-northeast-2
   PROJECT_NAME: ptip2.0
-  S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
-  CODE_DEPLOY_APPLICATION_NAME: spring-boot-app
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: spring-boot-deploy-group
+  S3_BUCKET_NAME: ${{ secrets.TEST_S3_BUCKET_NAME }}
+  CODE_DEPLOY_APPLICATION_NAME: testptip-codedeploy-application
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: testptip-codedeploy-deployment-group
 
 permissions:
   contents: read
@@ -31,7 +31,7 @@ jobs:
 
       - name: Generate .env and application-prod.properties
         run: |
-          echo "${{ secrets.ENV_FILE }}" > .env
+          echo "${{ secrets.TEST_ENV_FILE }}" > .env
           chmod +x ./generate-properties.sh
           ./generate-properties.sh
 
@@ -44,8 +44,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.TEST_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.TEST_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Prepare deployment bundle
