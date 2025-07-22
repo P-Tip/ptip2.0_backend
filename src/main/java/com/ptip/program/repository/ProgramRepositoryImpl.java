@@ -86,7 +86,7 @@ public class ProgramRepositoryImpl implements ProgramRepositoryCustom {
                             .asc());
                     orders.add(program.applicationEnd.asc());
                 }
-                default -> throw new IllegalArgumentException("지원하지 않는 정렬 필드입니다. " + order.getProperty());
+                default -> throw new IllegalArgumentException("지원하지 않는 정렬 필드입니다. sort=" + order.getProperty());
             }
         }
         return orders;

@@ -56,7 +56,7 @@ public class ScholarshipRepositoryImpl implements ScholarshipRepositoryCustom {
             case "5미만" -> scholarship.maxAmount.lt(50_000);
             case "5~10" -> scholarship.maxAmount.between(50_000, 100_000);
             case "10이상" -> scholarship.maxAmount.gt(100_000);
-            default -> throw new IllegalArgumentException("지원하지 않는 조건 필드입니다. " + amount);
+            default -> throw new IllegalArgumentException("지원하지 않는 조건 필드입니다. amount=" + amount);
         };
     }
 
@@ -66,9 +66,9 @@ public class ScholarshipRepositoryImpl implements ScholarshipRepositoryCustom {
         if (status == null) return null;
         return switch (status) {
             case "진행중" -> scholarship.deadline.goe(now);
-            case "마감임박" -> scholarship.deadline.between(now, now.plusDays(limit != 0 ? limit : 4));
+            case "마감임박" -> scholarship.deadline.between(now, now.plusDays(limit));
             case "마감" -> scholarship.deadline.lt(now);
-            default -> throw new IllegalArgumentException("지원하지 않는 조건 필드입니다. " + status);
+            default -> throw new IllegalArgumentException("지원하지 않는 조건 필드입니다. status=" + status);
         };
     }
 
@@ -88,7 +88,7 @@ public class ScholarshipRepositoryImpl implements ScholarshipRepositoryCustom {
                             .asc());
                     orders.add(scholarship.deadline.asc());
                 }
-                default -> throw new IllegalArgumentException("지원하지 않는 정렬 필드입니다. " + order.getProperty());
+                default -> throw new IllegalArgumentException("지원하지 않는 정렬 필드입니다. sort=" + order.getProperty());
             }
         }
         return orders;

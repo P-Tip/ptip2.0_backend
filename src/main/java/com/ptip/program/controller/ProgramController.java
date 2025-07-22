@@ -39,18 +39,18 @@ public class ProgramController {
     public ResponseEntity<ApiResponse<PageResponseDto<ScholarshipResponseDto>>> getScholarshipList(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "deadline") String sort,
+            @RequestParam(defaultValue = "마감일순") String sort,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String amount,
             @RequestParam(required = false) String status,
-            @RequestParam(required = false) int limit
+            @RequestParam(defaultValue = "4") int limit
     ) {
         PageResponseDto<ScholarshipResponseDto> response = scholarshipService.findScholarships(page, size, sort, keyword, amount, status, limit);
         return ApiResponse.success(response);
     }
 
     @Operation(summary = "단일 교내외 프로그램 조회", description = "클라이언트가 조회할 데이터를 {id}로 구분해서 요청해주면 해당 id의 교내외 프로그램을 반환합니다.")
-    @GetMapping("/{id}")
+    @GetMapping("/general/{id}")
     public ResponseEntity<ApiResponse<ProgramResponseDto>> getProgram(@PathVariable int id) {
         return ApiResponse.success(programService.findProgram(id));
     }
@@ -63,7 +63,7 @@ public class ProgramController {
     public ResponseEntity<ApiResponse<PageResponseDto<ProgramResponseDto>>> getProgramList(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "applicationEnd") String sort,
+            @RequestParam(defaultValue = "마감임박순") String sort,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) List<String> category,
             @RequestParam(required = false) List<String> mode,

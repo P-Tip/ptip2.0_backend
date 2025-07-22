@@ -23,6 +23,7 @@ public class ScholarshipResponseDto {
     private String requiredDocuments;
     private String steps;
     private String applyUrl;
+    private Boolean liked;
 
     public static ScholarshipResponseDto from(Scholarship scholarship) {
         return ScholarshipResponseDto.builder()
