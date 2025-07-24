@@ -35,6 +35,8 @@ springdoc.default-consumes-media-type=application/json
 springdoc.default-produces-media-type=application/json
 springdoc.swagger-ui.enabled=true
 springdoc.swagger-ui.disable-swagger-default-url=true
+
+server.forward-headers-strategy=framework
 EOF
 
 echo "✅ application-prod.properties 생성 완료!"
