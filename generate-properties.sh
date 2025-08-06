@@ -37,6 +37,9 @@ springdoc.swagger-ui.enabled=true
 springdoc.swagger-ui.disable-swagger-default-url=true
 
 server.forward-headers-strategy=framework
+
+spring.mail.username=ptip.sender@gmail.com
+spring.mail.password=vuvcunkndgloficd
 EOF
 
 echo "✅ application-prod.properties 생성 완료!"

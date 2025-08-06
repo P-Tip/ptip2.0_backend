@@ -39,4 +39,11 @@ public class JwtUtil {
                 .withExpiresAt(new Date(System.currentTimeMillis() + refreshTokenExpiration))
                 .sign(Algorithm.HMAC256(secretKey));
     }
+
+    public String extractUserId(String token) {
+        return JWT.require(Algorithm.HMAC256(secretKey))
+                .build()
+                .verify(token)
+                .getClaim("userId").asString();
+    }
 }

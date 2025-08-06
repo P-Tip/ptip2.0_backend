@@ -24,7 +24,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/auth/**", "/api-docs/**", "/swagger", "/swagger-ui/**", "/api/programs/**").permitAll()
+                        .requestMatchers("/", "/auth/**", "/api-docs/**", "/swagger", "/swagger-ui/**", "/api/programs/**",
+                                "/email/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
