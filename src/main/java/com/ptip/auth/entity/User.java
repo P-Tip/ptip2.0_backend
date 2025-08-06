@@ -28,4 +28,13 @@ public class User {
     private String email;
 
     private String refreshToken;
+
+    @Column
+    private String schoolEmail;
+
+    @Column(nullable = false)
+    private boolean schoolEmailVerified = false;
+
+    @Column
+    private String schoolEmailVerificationCode;
 }
