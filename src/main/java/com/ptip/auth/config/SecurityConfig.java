@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/auth/**", "/api-docs/**", "/swagger", "/swagger-ui/**", "/api/programs/**",
-                                "/email/**").permitAll()
+                                "/api/notices/**", "/email/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

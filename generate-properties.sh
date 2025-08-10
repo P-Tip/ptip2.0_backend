@@ -40,6 +40,9 @@ server.forward-headers-strategy=framework
 
 spring.mail.username=ptip.sender@gmail.com
 spring.mail.password=$SPRING_MAIL_PASSWORD
+
+gemini.api.key=$GEMINI_API_KEY
+
 EOF
 
 echo "✅ application-prod.properties 생성 완료!"
