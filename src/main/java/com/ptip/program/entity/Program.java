@@ -18,19 +18,19 @@ public class Program {
 
     private String category;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "application_start", nullable = false)
+    @Column(name = "application_start")
     private LocalDate applicationStart;
 
-    @Column(name = "application_end", nullable = false)
+    @Column(name = "application_end")
     private LocalDate applicationEnd;
 
-    @Column(name = "program_start", nullable = false)
+    @Column(name = "program_start")
     private LocalDate programStart;
 
-    @Column(name = "program_end", nullable = false)
+    @Column(name = "program_end")
     private LocalDate programEnd;
 
     private String mode;
@@ -39,11 +39,19 @@ public class Program {
 
     private String tags;
 
-    @Column(name = "how_to_apply", nullable = false)
+    @Column(name = "how_to_apply")
     private String howToApply;
 
-    @Column(name = "apply_url", nullable = false)
+    @Column(name = "apply_url")
     private String applyUrl;
 
     private int popularity;
+
+    public void increasePopularity() {
+        this.popularity += 1;
+    }
+
+    public void decreasePopularity() {
+        this.popularity = Math.max(0, this.popularity - 1);
+    }
 }

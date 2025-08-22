@@ -25,7 +25,7 @@ public class ProgramResponseDto {
     private String applyUrl;
     private Boolean liked;
 
-    public static ProgramResponseDto from(Program program) {
+    private static ProgramResponseDto.ProgramResponseDtoBuilder baseBuilder(Program program) {
         return ProgramResponseDto.builder()
                 .id(program.getId())
                 .title(program.getTitle())
@@ -38,8 +38,15 @@ public class ProgramResponseDto {
                 .mode(program.getMode())
                 .location(program.getLocation())
                 .tags(program.getTags())
-                .applyUrl(program.getApplyUrl())
                 .howToApply(program.getHowToApply())
-                .build();
+                .applyUrl(program.getApplyUrl());
+    }
+
+    public static ProgramResponseDto from(Program program) {
+        return baseBuilder(program).build();
+    }
+
+    public static ProgramResponseDto of(Program program, Boolean liked) {
+        return baseBuilder(program).liked(liked).build();
     }
 }

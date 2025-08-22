@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/auth/**", "/api-docs/**", "/swagger", "/swagger-ui/**", "/api/programs/**",
+                        .requestMatchers("/", "/auth/**", "/api-docs/**", "/swagger", "/swagger-ui/**", "/api/programs/**", "/api/likes/**",
                                 "/email/**").permitAll()
                         .anyRequest().authenticated()
                 )

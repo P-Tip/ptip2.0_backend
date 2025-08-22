@@ -25,7 +25,7 @@ public class ScholarshipResponseDto {
     private String applyUrl;
     private Boolean liked;
 
-    public static ScholarshipResponseDto from(Scholarship scholarship) {
+    private static ScholarshipResponseDto.ScholarshipResponseDtoBuilder baseBuilder(Scholarship scholarship) {
         return ScholarshipResponseDto.builder()
                 .id(scholarship.getId())
                 .title(scholarship.getTitle())
@@ -37,7 +37,14 @@ public class ScholarshipResponseDto {
                 .eligibility(scholarship.getEligibility())
                 .requiredDocuments(scholarship.getRequiredDocuments())
                 .steps(scholarship.getSteps())
-                .applyUrl(scholarship.getApplyUrl())
-                .build();
+                .applyUrl(scholarship.getApplyUrl());
+    }
+
+    public static ScholarshipResponseDto from(Scholarship scholarship) {
+        return baseBuilder(scholarship).build();
+    }
+
+    public static ScholarshipResponseDto of(Scholarship scholarship, Boolean liked) {
+        return baseBuilder(scholarship).liked(liked).build();
     }
 }
