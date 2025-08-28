@@ -2,9 +2,12 @@ package com.ptip.common.exception;
 
 import com.ptip.common.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.Map;
 
@@ -45,6 +48,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ApiResponse<Object>> handleNullPointer(NullPointerException e) {
         return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류가 발생했습니다. (NPE)");
+    }
+
+    @ExceptionHandler({BindException.class, MethodArgumentTypeMismatchException.class, ConversionFailedException.class})
+    public ResponseEntity<ApiResponse<Object>> handleBindingErrors(Exception ex) {
+        Throwable root = ex;
+        while (root.getCause() != null && root.getCause() != root) {
+            root = root.getCause();
+        }
+        return ApiResponse.error(HttpStatus.BAD_REQUEST, root.getMessage());
     }
 
     private ResponseEntity<?> buildErrorResponse(String message, HttpStatus status) {

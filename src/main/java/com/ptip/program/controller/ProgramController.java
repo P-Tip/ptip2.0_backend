@@ -1,5 +1,6 @@
 package com.ptip.program.controller;
 
+import com.ptip.auth.jwt.JwtUtil;
 import com.ptip.common.dto.ApiResponse;
 import com.ptip.program.dto.PageResponseDto;
 import com.ptip.program.dto.ProgramResponseDto;
@@ -20,10 +21,12 @@ public class ProgramController {
 
     private final ScholarshipService scholarshipService;
     private final ProgramService programService;
+    private final JwtUtil jwtUtil;
 
-    public ProgramController(ScholarshipService scholarshipService, ProgramService programService) {
+    public ProgramController(ScholarshipService scholarshipService, ProgramService programService, JwtUtil jwtUtil) {
         this.scholarshipService = scholarshipService;
         this.programService = programService;
+        this.jwtUtil = jwtUtil;
     }
 
     @Operation(summary = "단일 장학금 프로그램 조회", description = "클라이언트가 조회할 데이터를 {id}로 구분해서 요청해주면 해당 id의 장학금 프로그램을 반환합니다.")
@@ -43,9 +46,17 @@ public class ProgramController {
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String amount,
             @RequestParam(required = false) String status,
-            @RequestParam(defaultValue = "4") int limit
+            @RequestParam(defaultValue = "4") int limit,
+            @RequestHeader(value = "Authorization", required = false) String token
     ) {
-        PageResponseDto<ScholarshipResponseDto> response = scholarshipService.findScholarships(page, size, sort, keyword, amount, status, limit);
+        Integer userId = null;
+        if (token != null && token.startsWith("Bearer ")) {
+            String extractedUserId = jwtUtil.extractUserId(token.substring(7));
+            if (extractedUserId != null && !extractedUserId.isEmpty()) {
+                userId = Integer.valueOf(extractedUserId);
+            }
+        }
+        PageResponseDto<ScholarshipResponseDto> response = scholarshipService.findScholarships(page, size, sort, keyword, amount, status, limit, userId);
         return ApiResponse.success(response);
     }
 
@@ -67,9 +78,17 @@ public class ProgramController {
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) List<String> category,
             @RequestParam(required = false) List<String> mode,
-            @RequestParam(required = false) List<String> tag
+            @RequestParam(required = false) List<String> tag,
+            @RequestHeader(value = "Authorization", required = false) String token
     ) {
-        PageResponseDto<ProgramResponseDto> response = programService.findPrograms(page, size, sort, keyword, category, mode, tag);
+        Integer userId = null;
+        if (token != null && token.startsWith("Bearer ")) {
+            String extractedUserId = jwtUtil.extractUserId(token.substring(7));
+            if (extractedUserId != null && !extractedUserId.isEmpty()) {
+                userId = Integer.valueOf(extractedUserId);
+            }
+        }
+        PageResponseDto<ProgramResponseDto> response = programService.findPrograms(page, size, sort, keyword, category, mode, tag, userId);
         return ApiResponse.success(response);
     }
 
